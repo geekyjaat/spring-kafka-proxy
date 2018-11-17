@@ -41,10 +41,39 @@ Let us open the VS code application now. We will use its Spring Initializr suppo
 7. Now select your dependencies - Kafka and Web. Click enter and save your project.
 8. VS Code will open up your project and you are ready to go now.
 
+### Dependencies
+The project is using `springBootVersion = '2.1.0.RELEASE'`. Here are the dependencies in `build.gradle` -
+
+```gradle
+
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	implementation('org.springframework.kafka:spring-kafka')
+
+```
+
 ## Setting up properties
-TODO
+Now we set up our properties. If you are running servers at localhost, you don't need to set up these as Spring autoconfiguration will take care of it but I am showing it here to make sure you understand how to do in a real work scenario.
+1. `spring.kafka.client-id` - ID to pass to the server when making requests. Used for server-side logging.
+2. `spring.kafka.bootstrap-servers` - Comma-delimited list of host:port pairs to use for establishing the initial connections to the Kafka cluster. Applies to all components unless overridden.
+3. `spring.kafka.consumer.group-id` - Unique string that identifies the consumer group to which this consumer belongs.
+4. `spring.kafka.consumer.auto-offset-reset` - What to do when there is no initial offset in Kafka or if the current offset no longer exists on the server.
+5. `app.default.topic` - NOTE: this is not a spring kafka property. It is property to set a default topic value which we will use in our app to produce messages to.
+
+```yml
+# Let us set up our properties for kafka
+spring.kafka.client-id=spring-kafka-proxy
+spring.kafka.bootstrap-servers=localhost:9092
+
+# now for consumer code
+spring.kafka.consumer.group-id=spring-kafka-proxy
+spring.kafka.consumer.auto-offset-reset=latest
+
+# app related props
+app.default.topic=local-topic
+```
 
 ## The Code
+Now, let us write some code. we will create a new class to add all our new functionality. 
 ### Admin
 TODO
 ### Producer
